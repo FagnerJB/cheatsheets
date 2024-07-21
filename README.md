@@ -2,11 +2,11 @@
 Cheatsheets for devs
 
 # Metas
-[] HTML: Tags & Atributes
-[] HTTP Status
-[] REST API
-[] MySQL
-[] Linux Commands
+- [] HTML: Tags & Atributes
+- [] HTTP Status
+- [] REST API
+- [] MySQL
+- [] Linux Commands
 
 # References
 - https://css-tricks.com/almanac/

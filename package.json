@@ -1,0 +1,12 @@
+{
+  "name": "cheatsheets",
+  "version": "1.0.0",
+  "description": "Cheatsheets for devs",
+  "main": "index.js",
+  "scripts": {
+    "dev": "mintlify dev"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "MIT"
+}
