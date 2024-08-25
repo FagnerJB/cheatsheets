@@ -1,12 +1,15 @@
 {
-  "name": "cheatsheets",
-  "version": "1.0.0",
-  "description": "Cheatsheets for devs",
-  "main": "index.js",
-  "scripts": {
-    "dev": "mintlify dev"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "MIT"
+   "name": "cheatsheets",
+   "author": "Fagner JB.",
+   "description": "Cheatsheets for devs",
+   "version": "1.0.0",
+   "main": "src/index.js",
+   "scripts": {
+      "build": "node src/index.js"
+   },
+   "keywords": [],
+   "license": "CC-BY-SA",
+   "dependencies": {
+      "markdown-json": "^1.6.1"
+   }
 }
