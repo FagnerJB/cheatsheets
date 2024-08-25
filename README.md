@@ -4,8 +4,8 @@ Cheatsheets for devs.
 
 # Metas
 
--  [ ] HTML: Tags & Atributes
--  [x] HTTP Status
+-  [ ] [HTML: Tags & Atributes](docs/html/_index.md)
+-  [x] [HTTP Response Status Codes](docs/http/status_codes.md)
 -  [ ] REST API
 -  [ ] Markdown
 -  [ ] MySQL
