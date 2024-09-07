@@ -3,13 +3,18 @@
    "author": "Fagner JB.",
    "description": "Cheatsheets for devs",
    "version": "1.0.0",
-   "main": "src/index.js",
+   "main": "deploy/index.js",
    "scripts": {
-      "build": "node src/index.js"
+      "build": "node deploy/index.js",
+      "css": "npx tailwindcss -i ./web/dev/all.css -o ./web/assets/all.css --watch",
+      "assets": "npx tailwindcss -i ./web/dev/all.css -o ./web/assets/all.css"
    },
-   "keywords": [],
+   "keywords": [
+      "doc",
+      "cheatsheet"
+   ],
    "license": "CC-BY-SA",
-   "dependencies": {
-      "markdown-json": "^1.6.1"
+   "devDependencies": {
+      "tailwindcss": "^3.4.10"
    }
 }

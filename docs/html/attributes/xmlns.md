@@ -7,5 +7,7 @@ Tags: html, svg
 
 # xmlns
 
+## Description
+
 Specifies the **XML Namespace** of the document or an element.  
 More that one namespace can be specified with prefixes, like `xmlns:h`.

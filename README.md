@@ -1,6 +1,4 @@
-# Cheatsheets
-
-Cheatsheets for devs.
+# Cheatsheets for devs
 
 # Metas
 
@@ -12,7 +10,11 @@ Cheatsheets for devs.
 -  [ ] CLI & Linux Commands
 -  [ ] Esperanto
 
-# References
+# Similar projects
+
+## CLI & Linux Commands
+
+-  [tldr pages](https://tldr.inbrowser.app/)
 
 -  https://css-tricks.com/almanac/
 -  https://www.htmldog.com/
