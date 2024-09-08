@@ -72,6 +72,7 @@ Specifies inline text which is to be displayed as superscript for solely typogra
 ## Example
 
 ```html
+Footnote<sup>2</sup>
 <strong>Important</strong>
 <b>Attention</b>
 <em>Emphasis</em>
@@ -82,5 +83,5 @@ Specifies inline text which is to be displayed as superscript for solely typogra
 <del>Toronto 2028</del>
 <ins>Los Angeles 2028</ins>
 <small>Copyright</small>
-C<sub>8</sub>H Footnote<sup>2</sup>
+C<sub>8</sub>H
 ```

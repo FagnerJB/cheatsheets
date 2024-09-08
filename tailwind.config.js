@@ -1,5 +1,7 @@
 /** @type {import('tailwindcss').Config} */
 
+const defaultTheme = require('tailwindcss/defaultTheme')
+
 module.exports = {
    content: ['./web/**/*.{html,js}'],
    theme: {
@@ -9,7 +11,22 @@ module.exports = {
             DEFAULT: '1.5rem',
          },
       },
+      fontSize: {
+         xs: ['0.875rem', '1.6'],
+         sm: ['1rem', '1.6'],
+         base: ['1.125rem', '1.6'],
+         lg: ['1.25rem', '1.6'],
+         xl: ['1.5rem', '1.6'],
+         '2xl': ['1.875rem', '1.6'],
+         '3xl': ['2.25rem', '1.6'],
+      },
       extend: {
+         fontFamily: {
+            sans: ['"Nunito Sans"', ...defaultTheme.fontFamily.sans],
+         },
+         listStyleType: {
+            square: 'square',
+         },
          colors: {
             dracula: {
                orange: '#FFB86C',

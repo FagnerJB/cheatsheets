@@ -1,4 +1,13 @@
 document.addEventListener('alpine:init', () => {
+   const postprocess = (html) => {
+      setTimeout(() => {
+         Prism.highlightAll()
+      }, 5)
+
+      return html
+   }
+   marked.use({ hooks: { postprocess } })
+
    Alpine.data('main', () => ({
       isLoading: true,
       currentArticle: {
@@ -8,10 +17,10 @@ document.addEventListener('alpine:init', () => {
       currentInput: '',
       currentSheet: 'all',
       currentFound: [],
-      currentKeyFound: 0,
+      currentFoundKey: 0,
       content: [],
       sheets: [
-         { href: '_index' },
+         { href: 'readme' },
          { href: 'html', title: 'HTML', description: 'All tags and atributes' },
          // {
          //    title: 'HTTP Codes',
@@ -20,72 +29,136 @@ document.addEventListener('alpine:init', () => {
          // },
       ],
       fastSearch() {
-         if (this.currentInput.length < 4) {
+         this.currentFound = []
+
+         if (this.currentInput.length < 3) {
             return
          }
 
-         this.currentFound = []
-         const term = new RegExp(this.currentInput, 'gi')
+         const term = new RegExp(this.currentInput.trim(), 'gi')
 
          this.content.forEach((sheet) => {
             if (
-               this.currentSheet !== 'all' &&
-               sheet.sheet !== this.currentSheet
+               (this.currentSheet !== 'all' &&
+                  this.currentSheet !== Object.keys(sheet)[0]) ||
+               'readme' === Object.keys(sheet)[0]
             ) {
                return
             }
 
-            for (const [category, articles] of Object.entries(sheet)) {
-               if ('sheet' === category) {
-                  continue
-               }
+            for (const [sheetKey, categories] of Object.entries(sheet)) {
+               categories.forEach((category) => {
+                  for (const [categoryKey, categoryArticles] of Object.entries(
+                     category
+                  )) {
+                     if ('readme' === categoryKey) {
+                        continue
+                     }
 
-               articles.forEach((article) => {
-                  let articleMatches = 0
-                  let nameMatches = JSON.stringify(article.name).match(term)
+                     categoryArticles.forEach((article) => {
+                        let articleMatches = 0
+                        article = Object.values(article)[0]
 
-                  if (nameMatches) {
-                     articleMatches += nameMatches.length * 3
+                        let titleMatches = article.title.match(term)
+                        if (titleMatches) {
+                           articleMatches += titleMatches.length * 2.5
+                        }
+
+                        let nameMatches = article.name.match(term)
+                        if (nameMatches) {
+                           articleMatches += nameMatches.length * 1.5
+                        }
+
+                        let contentMatches = article.content.match(term)
+                        if (contentMatches) {
+                           articleMatches += contentMatches.length * 0.75
+                        }
+
+                        if (articleMatches === 0) {
+                           return
+                        }
+
+                        this.currentFound.push({
+                           matches: articleMatches,
+                           href: `${sheetKey}/${categoryKey}/${article.name}`,
+                           title: `<strong>${article.title}</strong> ${marked
+                              .parse(articleFound.content)
+                              .replace(/(<([^>]+)>)/gi, '')}`,
+                        })
+                     })
                   }
-
-                  let contentMatches = JSON.stringify(article.content).match(
-                     term
-                  )
-
-                  if (contentMatches) {
-                     articleMatches += contentMatches.length
-                  }
-
-                  if (articleMatches === 0) {
-                     return
-                  }
-
-                  this.currentFound.push({
-                     matches: articleMatches,
-                     href: `/${sheet.sheet}/${category}/${article.name}`,
-                     title: `<strong>${article.content[0].heading}</strong> ${article.content[1].content}`,
-                  })
                })
             }
          })
 
          this.currentFound.sort((a, b) => b.matches - a.matches)
       },
+      changeFoundKey(e) {
+         if (0 === this.currentFound.length) {
+         }
+         switch (e.key) {
+            case 'ArrowDown':
+               e.preventDefault()
+               if (this.currentFoundKey === this.currentFound.length - 1) {
+                  return
+               }
+               this.currentFoundKey++
+               break
+            case 'ArrowUp':
+               e.preventDefault()
+               if (this.currentFoundKey === 0) {
+                  return
+               }
+               this.currentFoundKey--
+               break
+            case 'Enter':
+               e.preventDefault()
+               location.hash = this.currentFound[this.currentFoundKey].href
+               break
+            default:
+               break
+         }
+      },
       setCurrentArticle(path) {
+         path = path.replace('#', '')
          const paths = path.split('/')
          const sheetTarget = paths[0]
-         const sheetFound = this.content.filter(
-            (sheet) => sheetTarget === sheet.sheet
-         )[0]
-         const articleKey = paths[1] ?? sheetTarget
+         const categoryTarget = paths[1] ?? 'readme'
+         const articleTarget = paths[2] ?? 'readme'
 
-         for (const [key, content] of Object.entries(sheetFound)) {
-            if ('sheet' === key) {
-               continue
+         const sheetFound = this.content.filter(
+            (sheet) => sheetTarget === Object.keys(sheet)[0]
+         )[0]
+
+         for (const [sheetName, categories] of Object.entries(sheetFound)) {
+            if (categories.name) {
+               articleFound = categories
+               break
             }
 
-            console.log(content)
+            const categoryFound = categories.filter(
+               (category) => categoryTarget === Object.keys(category)[0]
+            )[0]
+
+            const articles = Object.values(categoryFound)[0]
+
+            if (articles.name) {
+               articleFound = articles
+               break
+            }
+
+            articleFound = articles.filter(
+               (article) => articleTarget === Object.values(article)[0].name
+            )[0]
+
+            articleFound = Object.values(articleFound)[0]
          }
+
+         this.currentFound = []
+         this.currentInput = ''
+         this.currentArticle.title = articleFound.title
+
+         this.currentArticle.content = marked.parse(articleFound.content)
       },
       init() {
          const promises = this.sheets.map(async (sheet) => {
@@ -94,16 +167,20 @@ document.addEventListener('alpine:init', () => {
          })
 
          Promise.all(promises).then((values) => {
-            values.map((json, index) => {
-               this.content.push({
-                  sheet: this.sheets[index].href,
-                  ...json,
-               })
+            values.map((json) => {
+               this.content.push({ ...json })
             })
-
             this.isLoading = false
-            this.setCurrentArticle('html')
+            if (location.hash) {
+               this.setCurrentArticle(location.hash)
+            } else {
+               this.setCurrentArticle('readme')
+            }
             this.sheets = this.sheets.slice(1)
+         })
+
+         addEventListener('hashchange', () => {
+            this.setCurrentArticle(location.hash)
          })
       },
    }))

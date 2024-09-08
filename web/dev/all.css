@@ -1,3 +1,79 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+::-webkit-scrollbar {
+   @apply w-2.5 h-2.5;
+}
+
+::-webkit-scrollbar-track {
+   @apply bg-neutral-900/75 py-2;
+}
+
+::-webkit-scrollbar-thumb {
+   @apply bg-gray-500 rounded;
+}
+
+::-webkit-scrollbar-thumb:hover {
+   @apply bg-gray-400;
+}
+
+.scrollbar::-webkit-scrollbar-track {
+   @apply bg-black;
+}
+
+.content {
+   max-height: 73vh;
+
+   > *:not(.code-toolbar) {
+      @apply max-w-prose;
+   }
+
+   h1,
+   h2,
+   h3,
+   h4,
+   h5,
+   h6 {
+      @apply font-bold text-dracula-orange;
+   }
+   h2 {
+      @apply text-2xl mt-4 mb-1;
+   }
+   h3 {
+      @apply text-xl mt-5 mb-1;
+   }
+   h4 {
+      @apply text-lg;
+   }
+   h5 {
+      @apply text-lg;
+   }
+   h6 {
+      @apply text-lg;
+   }
+
+   a {
+      @apply text-dracula-red;
+   }
+
+   ul {
+      @apply list-square list-inside;
+
+      li {
+         @apply my-1;
+      }
+   }
+
+   ol {
+      @apply list-decimal list-inside;
+
+      li {
+         @apply my-1;
+      }
+   }
+
+   p {
+      @apply mb-2 text-justify;
+   }
+}

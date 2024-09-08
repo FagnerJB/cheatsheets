@@ -7,21 +7,31 @@ felipe
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
+	<link rel="preconnect" href="https://cdn.jsdelivr.net">
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>Cheatsheets for Devs</title>
 	<meta name="description" content="Cheatsheets for HTML, HTTP, Linux devs">
 	<meta name="author" content="Fagner JB.">
+	<link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,opsz,wght@0,6..12,200..1000;1,6..12,200..1000&display=swap"
+			rel="stylesheet">
 	<link rel="stylesheet" href="assets/all.css">
-	<script src="https://unpkg.com/alpinejs" defer></script>
+	<link rel="stylesheet" href="assets/prism.css">
+	<script src="https://cdn.jsdelivr.net/npm/alpinejs/dist/cdn.min.js" defer></script>
+	<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+	<script src="assets/prism.js" defer></script>
 	<script src="assets/all.js"></script>
 </head>
 <body x-data="main"
-		class="flex justify-center items-center bg-zinc-900 text-neutral-300 h-screen">
-	<div class="flex flex-col justify-between min-h-96 my-6 max-w-screen-md w-full mx-auto">
+		class="flex justify-center items-center text-lg bg-zinc-900 text-neutral-300 h-screen">
+	<div class="flex flex-col justify-between min-h-96 my-6 max-w-screen-lg w-full mx-auto">
 		<div>
 			<search class="relative">
 				<form class="flex text-zinc-900" x-on:submit.prevent="fastSearch" x-on:input="fastSearch">
-					<input class="bg-neutral-100 pt-1 pb-1.5 px-3 grow" type="search" x-model="currentInput"
+					<input class="bg-neutral-100 pt-1 pb-1.5 px-3 grow border-r border-zinc-400" type="search" autofocus
+							 x-model="currentInput"
+							 x-on:keydown="changeFoundKey"
 							 x-bind:disabled="isLoading" />
 					<select class="bg-neutral-100 pt-1 pb-1.5 px-3" x-model="currentSheet" x-bind:disabled="isLoading">
 						<option value="all" selected>All</option>
@@ -33,25 +43,27 @@ felipe
 							  x-bind:disabled="isLoading">Search</button>
 				</form>
 				<template x-if="!!currentFound.length">
-					<ul class="absolute top-full left-0 right-0 bg-dracula-dark">
+					<ul class="absolute top-full left-0 right-0 z-10 bg-dracula-dark">
 						<template x-for="(found, index) in currentFound">
-							<li class="p-1 line-clamp-2" x-bind:class="{ 'bg-dracula-gray': index === currentKeyFound }">
-								<a x-bind:href="`#${found.href}`" x-html="found.title"></a>
+							<li class="py-2 px-2 line-clamp-2" x-bind:class="{ 'bg-dracula-gray': index === currentFoundKey }">
+								<a class="block" x-bind:href="`#${found.href}`" x-html="found.title"></a>
 							</li>
 						</template>
 					</ul>
 				</template>
 			</search>
 			<main>
-				<h1 class="text-xl my-3" x-text="currentArticle.title"></h1>
-				<div class="max-w-prose" x-html="currentArticle.content"></div>
+				<h1 class="text-3xl font-bold my-3" x-html="currentArticle.title"></h1>
+				<div class="content overflow-y-auto" x-html="currentArticle.content">
+				</div>
 			</main>
 		</div>
 		<footer class="mt-5">
 			<div class="flex justify-between border-t border-dracula-gray mt-2 pt-2">
 				<menu class="flex gap-2 text-sm">
 					<template x-for="item in sheets">
-						<li><a x-bind:href="`#${item.href}`" x-bind:title="item.description" x-text="item.title"></a></li>
+						<li><a x-bind:href="`#${item.href}/readme`" x-bind:title="item.description" x-text="item.title"></a>
+						</li>
 					</template>
 				</menu>
 				<ul class="flex gap-2 items-center text-xs text-center">

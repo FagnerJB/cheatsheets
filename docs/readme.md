@@ -1,4 +1,4 @@
-# Cheatsheets for devs
+# Cheatsheets for Devs
 
 Cheatsheets for web developers offering quick reference for best practices, guides and tutorials.
 

@@ -33,7 +33,7 @@ Usually, they have content and/or elements inside.
 </script>
 ```
 
-## Tags (Elements)
+## All Tags (Elements)
 
 -  [&lt;a&gt;, &lt;button&gt;, &lt;nav&gt;](tags/a-button-nav.md)
 -  [&lt;abbr&gt;, &lt;dfn&gt;, &lt;cite&gt;](tags/abbr-dfn-cite.md)

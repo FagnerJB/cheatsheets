@@ -6,8 +6,8 @@
    "main": "deploy/index.js",
    "scripts": {
       "build": "node deploy/index.js",
-      "css": "npx tailwindcss -i ./web/dev/all.css -o ./web/assets/all.css --watch",
-      "assets": "npx tailwindcss -i ./web/dev/all.css -o ./web/assets/all.css"
+      "css": "npx tailwindcss -i ./web/dev/all.css -o ./web/assets/all.min.css --minify --watch",
+      "assets": "npx tailwindcss -i ./web/dev/all.css -o ./web/assets/all.min.css --minify"
    },
    "keywords": [
       "doc",

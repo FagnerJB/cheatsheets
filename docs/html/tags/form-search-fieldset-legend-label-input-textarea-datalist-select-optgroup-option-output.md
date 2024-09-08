@@ -7,7 +7,7 @@ Related: button, progress, meter
 
 ## Description
 
-HTML provides several elements that can be used together to create forms that the user can fill out and submit to the website or application.
+HTML provides several elements that can be used together to create forms that the user can fill out and submit to the website server or application.
 
 ### form
 
